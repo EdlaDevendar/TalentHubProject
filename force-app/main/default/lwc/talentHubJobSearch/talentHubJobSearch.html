@@ -1,0 +1,51 @@
+<template>
+    <lightning-card title="Open Job Search" icon-name="standard:work_order">
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                <lightning-input label="Department" type="search" value={department} onchange={handleDepartmentChange}
+                    placeholder="Filter by department">
+                </lightning-input>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                <lightning-input label="Location" type="search" value={location} onchange={handleLocationChange}
+                    placeholder="Filter by location">
+                </lightning-input>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                <lightning-button label="Search jobs" variant="brand" onclick={handleSearch} disabled={isLoading}>
+                </lightning-button>
+
+                <lightning-button class="slds-m-left_x-small" label="Clear" onclick={handleClear} disabled={isLoading}>
+                </lightning-button>
+            </div>
+        </div>
+        <template if:true={isLoading}>
+            <div class="slds-is-relative slds-p-vertical_large" role="status">
+                <lightning-spinner alternative-text="Loading open jobs" size="small">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={errorMessage}>
+            <div class="slds-notify slds-notify_alert slds-alert_error slds-m-top_medium" role="alert">
+                <span>{errorMessage}</span>
+            </div>
+        </template>
+
+        <template if:true={showNoResults}>
+            <div class="slds-p-vertical_large slds-text-align_center slds-text-color_weak" role="status">
+                No open jobs match your filters.
+            </div>
+        </template>
+
+        <template if:true={hasJobs}>
+            <div class="slds-m-top_medium">
+                <lightning-datatable key-field="Id" data={jobs} columns={columns} onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </div>
+        </template>
+    </lightning-card>
+</template>

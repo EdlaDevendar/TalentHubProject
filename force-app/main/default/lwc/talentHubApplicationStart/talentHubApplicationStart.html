@@ -1,0 +1,73 @@
+<template>
+     <!-- <lightning-card title="Start an application"> -->
+
+
+        <lightning-card title="Start an application" icon-name="standard:work_order">
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                <lightning-input type="search" label="Search candidates" value={searchTerm} onchange={handleSearch}>
+            </lightning-input>
+                </lightning-input>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                <lightning-combobox class="slds-m-top_medium" label="Open job" placeholder="Select an open job"
+                options={openJobOptions} value={selectedJobId} onchange={selectJob}>
+            </lightning-combobox>
+
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                <lightning-button label="Search jobs" variant="brand" onclick={handleSearch} disabled={isLoading}>
+                </lightning-button>
+
+                <lightning-button class="slds-m-left_x-small" label="Clear" onclick={handleClear} disabled={isLoading}>
+                </lightning-button>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- <div class="slds-p-around_medium"> -->
+            <!-- <lightning-input type="search" label="Search candidates" value={searchTerm} onchange={handleSearch}> -->
+            <!-- </lightning-input> -->
+
+            <template if:true={filteredCandidates.length}>
+                <div class="slds-m-top_small">
+                    <template for:each={filteredCandidates} for:item="candidate">
+                        <div key={candidate.id} class="slds-box slds-m-bottom_x-small">
+                            <span>{candidate.name}</span>
+                            <template if:true={candidate.email}>
+                                <span> — {candidate.email}</span>
+                            </template>
+
+                            <lightning-button class="slds-m-left_small" label={candidateButtonLabel}
+                                data-id={candidate.id} onclick={selectCandidate}>
+                            </lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={showNoCandidates}>
+                <p class="slds-m-top_small">No matching candidates found.</p>
+            </template>
+
+            <!-- <lightning-combobox class="slds-m-top_medium" label="Open job" placeholder="Select an open job" -->
+                options={openJobOptions} value={selectedJobId} onchange={selectJob}>
+            <!-- </lightning-combobox> -->
+
+            <template if:true={errorMessage}>
+                <p class="slds-text-color_error slds-m-top_small">
+                    {errorMessage}
+                </p>
+            </template>
+
+            <lightning-button class="slds-m-top_medium" variant="brand" label="Continue"
+                onclick={continueToApplication}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>
